@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateLinkDto } from './dto/create-link.dto';
@@ -19,26 +19,18 @@ export class LinksService {
   }
 
   async findOne(id: string): Promise<Link> {
-    const link = await this.linkModel.findById(id).exec();
-    if (!link) {
-      throw new NotFoundException(`Link #${id} not found`);
-    }
-    return link;
+    return this.linkModel.findById(id).exec();
   }
 
   async update(id: string, updateLinkDto: UpdateLinkDto): Promise<Link> {
-    const existingLink = await this.linkModel.findByIdAndUpdate(id, updateLinkDto, { new: true }).exec();
-    if (!existingLink) {
-      throw new NotFoundException(`Link #${id} not found`);
-    }
-    return existingLink;
+    return this.linkModel.findByIdAndUpdate(id, updateLinkDto, { new: true }).exec();
   }
 
   async remove(id: string): Promise<Link> {
-    const link = await this.linkModel.findByIdAndDelete(id).exec();
-    if (!link) {
-      throw new NotFoundException(`Link #${id} not found`);
-    }
-    return link;
+    return this.linkModel.findByIdAndDelete(id).exec();
+  }
+
+  async deleteAll(): Promise<any> {
+    return this.linkModel.deleteMany({}).exec();
   }
 }

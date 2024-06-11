@@ -1,35 +1,39 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { LinksService } from './links.service';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
-import { Link } from './schemas/link.schema';
 
 @Controller('links')
 export class LinksController {
   constructor(private readonly linksService: LinksService) {}
 
   @Post()
-  async create(@Body() createLinkDto: CreateLinkDto): Promise<Link> {
+  create(@Body() createLinkDto: CreateLinkDto) {
     return this.linksService.create(createLinkDto);
   }
 
   @Get()
-  async findAll(): Promise<Link[]> {
+  findAll() {
     return this.linksService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Link> {
+  findOne(@Param('id') id: string) {
     return this.linksService.findOne(id);
   }
 
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto): Promise<Link> {
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto) {
     return this.linksService.update(id, updateLinkDto);
   }
 
+  @Delete('bulk-delete')
+  async deleteAllLinks() {
+    return this.linksService.deleteAll();
+  }
+
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<Link> {
+  remove(@Param('id') id: string) {
     return this.linksService.remove(id);
   }
 }

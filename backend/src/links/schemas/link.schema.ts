@@ -3,14 +3,17 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Link extends Document {
-  @Prop({ required: true })
+  @Prop()
   name: string;
 
-  @Prop({ required: true })
+  @Prop()
   url: string;
 
   @Prop()
   description: string;
+
+  @Prop()
+  category: string; // Add this line
 }
 
 export const LinkSchema = SchemaFactory.createForClass(Link);
